@@ -1,15 +1,28 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "Zigbee2MqttHomebridgePlugin",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
-        "type": "string",
+      "mqtt": {
+        "title": "MQTT",
+        "type": "object",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "properties": {
+          "server": {
+            "title": "Server",
+            "type": "string",
+            "required": true,
+            "default": "mqtt://localhost:1883"
+          },
+          "basetopic": {
+            "title": "Base topic",
+            "type": "string",
+            "required": true,
+            "default": "zigbee2mqtt"
+          }
+        }
       }
     }
   }

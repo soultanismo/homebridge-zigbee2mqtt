@@ -1,26 +1,26 @@
 import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from 'homebridge';
 
-import { ExampleHomebridgePlatform } from './platform';
+import { Zigbee2MqttHomebridgePlatform } from './platform';
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class ExamplePlatformAccessory {
+export class Zigbee2MqttPlatformAccessory {
   private service: Service;
 
   /**
-   * These are just used to create a working example
+   * These are just used to create a working Zigbee2Mqtt
    * You should implement your own code to track the state of your accessory
    */
-  private exampleStates = {
+  private Zigbee2MqttStates = {
     On: false,
     Brightness: 100,
   };
 
   constructor(
-    private readonly platform: ExampleHomebridgePlatform,
+    private readonly platform: Zigbee2MqttHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
   ) {
 
@@ -35,8 +35,8 @@ export class ExamplePlatformAccessory {
     this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
 
     // set the service name, this is what is displayed as the default name on the Home app
-    // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
-    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.exampleDisplayName);
+    // in this Zigbee2Mqtt we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
+    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.Zigbee2MqttDisplayName);
 
     // each service must implement at-minimum the "required characteristics" for the given service type
     // see https://developers.homebridge.io/#/service/Lightbulb
@@ -62,7 +62,7 @@ export class ExamplePlatformAccessory {
      * can use the same sub type id.)
      */
 
-    // Example: add two "motion sensor" services to the accessory
+    // Zigbee2Mqtt: add two "motion sensor" services to the accessory
     const motionSensorOneService = this.accessory.getService('Motion Sensor One Name') ||
       this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
 
@@ -72,7 +72,7 @@ export class ExamplePlatformAccessory {
     /**
      * Updating characteristics values asynchronously.
      * 
-     * Example showing how to update the state of a Characteristic asynchronously instead
+     * Zigbee2Mqtt showing how to update the state of a Characteristic asynchronously instead
      * of using the `on('get')` handlers.
      * Here we change update the motion sensor trigger states on and off every 10 seconds
      * the `updateCharacteristic` method.
@@ -80,7 +80,7 @@ export class ExamplePlatformAccessory {
      */
     let motionDetected = false;
     setInterval(() => {
-      // EXAMPLE - inverse the trigger
+      // Zigbee2Mqtt - inverse the trigger
       motionDetected = !motionDetected;
 
       // push the new value to HomeKit
@@ -94,12 +94,12 @@ export class ExamplePlatformAccessory {
 
   /**
    * Handle "SET" requests from HomeKit
-   * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
+   * These are sent when the user changes the state of an accessory, for Zigbee2Mqtt, turning on a Light bulb.
    */
   setOn(value: CharacteristicValue, callback: CharacteristicSetCallback) {
 
     // implement your own code to turn your device on/off
-    this.exampleStates.On = value as boolean;
+    this.Zigbee2MqttStates.On = value as boolean;
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
@@ -109,7 +109,7 @@ export class ExamplePlatformAccessory {
 
   /**
    * Handle the "GET" requests from HomeKit
-   * These are sent when HomeKit wants to know the current state of the accessory, for example, checking if a Light bulb is on.
+   * These are sent when HomeKit wants to know the current state of the accessory, for Zigbee2Mqtt, checking if a Light bulb is on.
    * 
    * GET requests should return as fast as possbile. A long delay here will result in
    * HomeKit being unresponsive and a bad user experience in general.
@@ -117,13 +117,13 @@ export class ExamplePlatformAccessory {
    * If your device takes time to respond you should update the status of your device
    * asynchronously instead using the `updateCharacteristic` method instead.
 
-   * @example
+   * @Zigbee2Mqtt
    * this.service.updateCharacteristic(this.platform.Characteristic.On, true)
    */
   getOn(callback: CharacteristicGetCallback) {
 
     // implement your own code to check if the device is on
-    const isOn = this.exampleStates.On;
+    const isOn = this.Zigbee2MqttStates.On;
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
@@ -135,12 +135,12 @@ export class ExamplePlatformAccessory {
 
   /**
    * Handle "SET" requests from HomeKit
-   * These are sent when the user changes the state of an accessory, for example, changing the Brightness
+   * These are sent when the user changes the state of an accessory, for Zigbee2Mqtt, changing the Brightness
    */
   setBrightness(value: CharacteristicValue, callback: CharacteristicSetCallback) {
 
     // implement your own code to set the brightness
-    this.exampleStates.Brightness = value as number;
+    this.Zigbee2MqttStates.Brightness = value as number;
 
     this.platform.log.debug('Set Characteristic Brightness -> ', value);
 
